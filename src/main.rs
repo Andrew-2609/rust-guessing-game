@@ -1,14 +1,20 @@
-use std::{cmp::Ordering, io};
+use io::stdout;
+use std::{
+    cmp::Ordering,
+    io::{self},
+};
 
 use rand::Rng;
 
-fn main() {
-    println!("Guess the number!");
+use ferris_says::say;
 
+fn main() {
     let secret_number = rand::thread_rng().gen_range(1..=100);
 
+    styled_print("Guess the number!");
+
     loop {
-        println!("Please, input your guess");
+        println!("Please, input your guess: ");
 
         let mut guess = String::new();
 
@@ -25,9 +31,13 @@ fn main() {
             Ordering::Less => println!("Too small!"),
             Ordering::Greater => println!("Too big!"),
             Ordering::Equal => {
-                println!("You won!");
+                styled_print("You won!");
                 break;
             }
         }
     }
+}
+
+fn styled_print(message: &str) {
+    say(&message, message.len(), &mut stdout()).unwrap();
 }
